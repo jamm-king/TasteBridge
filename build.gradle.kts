@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -27,6 +26,7 @@ kotlin {
 
 dependencies {
 	// Spring starters
+	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -44,7 +44,7 @@ dependencies {
 	// Resilience / Scheduling lock
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
 	implementation("net.javacrumbs.shedlock:shedlock-spring:5.13.0")
-	implementation("net.javacrumbs.shedlock:shedlock-provider-mongodb:5.13.0")
+	implementation("net.javacrumbs.shedlock:shedlock-provider-mongo:5.13.0")
 
 	// Test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
