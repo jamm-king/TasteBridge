@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class AppProperties(
     val webprobeBaseUrl: String,
     val tasteCompassEndpoint: String,
-    val tasteCompassApiKey: String,
     val jobs: Jobs
 ) {
     data class Jobs(
