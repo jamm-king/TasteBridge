@@ -33,10 +33,15 @@ class WebProbeHttpClient(
             .build()
 
         client.newCall(httpReq).execute().use { resp ->
+            val code = resp.code
+
+            if(code == 429) throw TooManyRequests("WebProbe rate limited (429)")
+            if(code >= 500) throw WebProbeUnavailable("WebProbe unavailable ($code)")
+
             if(!resp.isSuccessful) {
                 val msg = resp.body?.string()
-                log.warn("WebProbe crawl failed: status={} body = {} ", resp.code, msg)
-                throw IllegalStateException("WebProbe crawl failed: ${resp.code}")
+                log.warn("WebProbe crawl failed: status={} body = {} ", code, msg)
+                throw IllegalStateException("WebProbe crawl failed: $code")
             }
 
             val respBody = resp.body?.string() ?: "{}"

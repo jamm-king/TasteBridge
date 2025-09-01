@@ -22,6 +22,7 @@ class TistoryFreshJobTest {
 
     private val props = AppProperties(
         webprobeBaseUrl = "http://webprobe.local",
+        webprobeCrawlPath = "/api/crawl",
         tasteCompassEndpoint = "http://tastecompass.local/api/reviews",
         jobs = AppProperties.Jobs(keywords = listOf("포항 식당 리뷰"), maxResults = 30, fresh = true)
     )
