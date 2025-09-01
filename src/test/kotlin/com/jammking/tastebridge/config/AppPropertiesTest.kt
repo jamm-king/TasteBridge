@@ -19,6 +19,7 @@ class AppPropertiesTest {
     fun `binds values successfully`() {
         ctxRunner.withPropertyValues(
             "app.webprobe-base-url=http://wp:8080",
+            "app.webprobe-crawl-path=/api/crawl",
             "app.taste-compass-endpoint=http://tc:8080/api/reviews",
             "app.jobs.keywords[0]=a",
             "app.jobs.max-results=10",
@@ -43,7 +44,8 @@ class AppPropertiesTest {
     @Test
     fun `fails when mandatory properties are blank strings`() {
         ctxRunner.withPropertyValues(
-            "app.webprobe-base-url=",
+            "app.webprobe.base-url=",
+            "app.webprobe.crawl-path=",
             "app.taste-compass-endpoint=",
             "app.jobs.max-results=10",
         ).run { ctx ->

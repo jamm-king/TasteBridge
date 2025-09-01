@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 
 class WebProbeHttpClientTest {
 
@@ -22,6 +23,7 @@ class WebProbeHttpClientTest {
         server.start()
         val props = AppProperties(
             webprobeBaseUrl = server.url("/").toString().trimEnd('/'),
+            webprobeCrawlPath = "api/crawl",
             tasteCompassEndpoint = "http://tastecompass.local.api/reviews",
             jobs = AppProperties.Jobs()
         )
@@ -55,5 +57,21 @@ class WebProbeHttpClientTest {
         val pages = client.crawl(WebProbeRequest("u", listOf("k")))
         assertEquals(1, pages.size)
         assertEquals("https://t2", pages[0].url)
+    }
+
+    @Test
+    fun `maps 429 to TooManyRequests`() {
+        server.enqueue(MockResponse().setResponseCode(429).setBody("rate"))
+        assertThrows(TooManyRequests::class.java) {
+            client.crawl(WebProbeRequest("u", listOf("k")))
+        }
+    }
+
+    @Test
+    fun `maps 5xx to WebProbeUnavailable`() {
+        server.enqueue(MockResponse().setResponseCode(503).setBody("down"))
+        assertThrows(WebProbeUnavailable::class.java) {
+            client.crawl(WebProbeRequest("u", listOf("k")))
+        }
     }
 }

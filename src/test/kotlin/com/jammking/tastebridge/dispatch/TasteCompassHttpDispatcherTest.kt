@@ -24,6 +24,7 @@ class TasteCompassHttpDispatcherTest {
         val baseUrl = server.url("/api/reviews").toString()
         val props = AppProperties(
             webprobeBaseUrl = "http://webprobe.local",
+            webprobeCrawlPath = "/api/crawl",
             tasteCompassEndpoint = baseUrl,
             jobs = AppProperties.Jobs()
         )
