@@ -1,11 +1,14 @@
 package com.jammking.tastebridge.config
 
+import jakarta.validation.constraints.NotBlank
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.validation.annotation.Validated
 
+@Validated
 @ConfigurationProperties(prefix = "app")
 data class AppProperties(
-    val webprobeBaseUrl: String,
-    val tasteCompassEndpoint: String,
+    @field:NotBlank val webprobeBaseUrl: String,
+    @field:NotBlank val tasteCompassEndpoint: String,
     val jobs: Jobs
 ) {
     data class Jobs(
